@@ -1,11 +1,11 @@
-@extends('operator.layouts.master')
+@extends('agent.layouts.master')
 
 @push('styles')
-  @include('operator.layouts.styles.dataTable_styles')
+  @include('agent.layouts.styles.dataTable_styles')
 @endpush
 
 @section('content')
-  @include('operator.layouts.nav')
+  @include('agent.layouts.nav')
 
   <div class="container profile-block">
       <div class="row">
@@ -35,7 +35,7 @@
              @endforeach
            </tbody>
          </table>
-         <a href="{{ route('operator.TaxiBookings') }}" class="custom-submit-btn btn btn-default">Close</a>
+         <a href="{{ route('Agent.TaxiBookings') }}" class="custom-submit-btn btn btn-default">Close</a>
        </div>
 
        </div>
@@ -44,5 +44,5 @@
  </div>
 
 
-  @include('operator.layouts.errors')
+  @include('agent.layouts.errors')
 @endsection

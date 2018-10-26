@@ -1,11 +1,11 @@
-@extends('operator.layouts.master')
+@extends('agent.layouts.master')
 
 @push('styles')
-  @include('operator.layouts.styles.dataTable_styles')
+  @include('agent.layouts.styles.dataTable_styles')
 @endpush
 
 @section('content')
-  @include('operator.layouts.nav')
+  @include('agent.layouts.nav')
   <div class="container profile-block">
       <div class="row">
         <div class="col-xs-12">
@@ -34,11 +34,11 @@
                  <td>{{ $company->spoc_approval }}</td>
                  <td>{{ $company->admin_approval }}</td>
                  <td class="details-col">
-                   <a href="{{ route('operator.show-TaxiVaximgmtfee',['id' => $company->id]) }}">
+                   <a href="{{ route('Agent.show-TaxiVaximgmtfee',['id' => $company->id]) }}">
                      <i class="fas fa-cog"></i>
                    </a>
                  </td>
-                 <td><a href="{{ route('operator.show-TaxiVaxiclients', ['id' => $company->id]) }}">
+                 <td><a href="{{ route('Agent.show-TaxiVaxiclients', ['id' => $company->id]) }}">
                       Edit
                  </td>
                </tr>
@@ -51,5 +51,5 @@
  </div>
 
 
-  @include('operator.layouts.errors')
+  @include('agent.layouts.errors')
 @endsection

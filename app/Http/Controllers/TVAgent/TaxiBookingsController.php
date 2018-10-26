@@ -2,15 +2,15 @@
 
 
 
-namespace App\Http\Controllers\Operator;
-use App\Company;
-use App\Taxi_Bookings;
-use App\Employee_Details;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+namespace app\Http\Controllers\TVAgent;
+use app\Company;
+use app\Bookings;
+use app\Employee_Details;
+use app\Http\Requests;
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Mapper;
+use Carbon\Carbon;
 
 class TaxiBookingsController extends Controller
 {
@@ -20,24 +20,24 @@ class TaxiBookingsController extends Controller
     $companys = Company::all();
 
     $empdetails = Employee_Details::all();
-    return view('operator.TaxiBookings.create',compact('companys','empdetails'));
+    return view('agent.TaxiBookings.create',compact('companys','empdetails'));
   }
 
   public function showpassenger($id) {
     $empdets = Employee_Details::where('taxibookingid',$id)->get();
-    return view('operator.TaxiBookings.PassengerDetails', compact('empdets'));
+    return view('agent.TaxiBookings.PassengerDetails', compact('empdets'));
 
   }
 
   public function index()
   {
-    $bookings = Taxi_Bookings::all();
-    return view('operator.TaxiBookings.index',compact('bookings'));
+    $bookings = Bookings::whereDate('created_at', Carbon::today())->get();
+    return view('agent.TaxiBookings.index',compact('bookings'));
   }
 
   public function submit(Request $request){
 
-    $bookings = new Taxi_Bookings;
+    $bookings = new Bookings;
     $empdet = new Employee_Details;
 
     $bookings->taxibooking_companyname =$request->input('taxibooking_companyname');
@@ -70,7 +70,7 @@ class TaxiBookingsController extends Controller
 
 
     $bookings->save();
-    return redirect()->route('operator.create-TaxiBookings');
+    return redirect()->route('Agent.create-TaxiBookings');
 
   }
 

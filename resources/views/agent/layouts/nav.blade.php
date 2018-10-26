@@ -9,10 +9,10 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-         
+          <a href="{{ route('Agent.create-agents')  }}">Add Agent</a>
         </li>
         <li>
-          
+          <a href="{{ route('Agent.agents') }}">View/Edit Agents</a>
         </li>
       </ul>
     </li>
@@ -22,10 +22,10 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-         
+          <a href="{{ route('Agent.create-TaxiVaxiclients')  }}">Add TaxiVaxi Client</a>
         </li>
         <li>
-          
+          <a href="{{ route('Agent.TaxiVaxiclients') }}">View/Edit TaxiVaxi Clients</a>
         </li>
       </ul>
     </li>
@@ -35,11 +35,12 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-         <!--  -->
+          <a href="{{ route('Agent.create-TaxiBookings')  }}">Add Taxi Bookings</a>
         </li>
-
+        <li>
+          <a href="{{ route('Agent.TaxiBookings') }}">View/Edit Today's Taxi Bookings</a>
+        </li>
       </ul>
     </li>
-   
   </ul>
 </div>

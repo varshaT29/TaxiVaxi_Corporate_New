@@ -1,15 +1,15 @@
-@extends('operator.layouts.master')
+@extends('agent.layouts.master')
 
 @push('styles')
-  @include('operator.layouts.styles.select2_styles')
+  @include('agent.layouts.styles.select2_styles')
 @endpush
 
 @section('content')
-  @include('operator.layouts.nav')
+  @include('agent.layouts.nav')
   <div class="container">
     <div class="row">
       <div class="col-xs-9 client-create-wrap">
-        <form id="addTaxiVaxiManagementSettingsForm" method="post" action="{{ route('operator.edit-TaxiVaximgmtfee',['id' => $companys->id]) }}">
+        <form id="addTaxiVaxiManagementSettingsForm" method="post" action="{{ route('Agent.edit-TaxiVaximgmtfee',['id' => $companys->id]) }}">
           {{ csrf_field() }}
           <div class="row">
             <div class="form-head">
@@ -53,18 +53,18 @@
             </div>
           </div>
         </div>
-        @include('operator.layouts.errors')
+        @include('agent.layouts.errors')
       @endsection
 
       @push('scripts')
-        @include('operator.layouts.scripts.select2_scripts')
+        @include('agent.layouts.scripts.select2_scripts')
         <script>
           $(document).ready(function() {
             $(".select2-drop").select2();
           });
         </script>
 
-        @include('operator.layouts.scripts.googleAutoComplete')
+        @include('agent.layouts.scripts.googleAutoComplete')
         <script>
           $(document).ready(function() {
             var input = document.getElementById('city');

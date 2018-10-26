@@ -1,10 +1,10 @@
 <?php
 
 namespace app\Http\Controllers\TVAgent;
-
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
-use app\UserAgents;
+use app\Taxivaxi_Admins;
 use app\PasswordReset;
 
 class SessionController extends Controller
@@ -32,19 +32,19 @@ class SessionController extends Controller
           'message' => 'success',
           'email'=> request(['email']),
       );
-      return json_encode($response); 
+      return json_encode($response);
     }
-    
+
     session()->flash('fail-message', 'Login Failed. Incorrect Username or Password.');
-    
+
      $response = array();
       $response[0] = array(
           'message' => 'fail',
       );
-      return json_encode($response); 
+      return json_encode($response);
   }
 
-  
+
 
   public function resetPassword()
   {
@@ -57,7 +57,7 @@ class SessionController extends Controller
 
 
     $email = request('email');
-    $user = UserAgents::where('email', $email)->first();
+    $user = Taxivaxi_Admins::where('email', $email)->first();
 
 
     if($user) {

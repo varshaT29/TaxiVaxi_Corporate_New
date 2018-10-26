@@ -1,16 +1,16 @@
-@extends('operator.layouts.master')
+@extends('agent.layouts.master')
 
 @push('styles')
-  @include('operator.layouts.styles.select2_styles')
-  @include('operator.layouts.styles.dateTimePicker_styles')
+  @include('agent.layouts.styles.select2_styles')
+  @include('agent.layouts.styles.dateTimePicker_styles')
 @endpush
 
 @section('content')
-  @include('operator.layouts.nav')
+  @include('agent.layouts.nav')
   <div class="container">
     <div class="row">
       <div class="col-xs-9 client-create-wrap">
-        <form id="addTaxiBookingsForm" method="post" action="{{ route('operator.store-TaxiBookings') }}">
+        <form id="addTaxiBookingsForm" method="post" action="{{ route('Agent.store-TaxiBookings') }}">
           {{ csrf_field() }}
           <div class="row">
             <div class="form-head">
@@ -38,10 +38,7 @@
                 </div>
                 <div>
                   <label>PICKUP LOCATION</label>
-                    <!-- <div style="width: 500px; height: 500px;">
-
-                    {!!Mapper::render() !!}
-                  </div> -->
+                   
                   <input type="text" placeholder="Pickup Location" class="form-control" name="pickup_location">
 
 
@@ -196,14 +193,14 @@
 
     </div>
   </div>
-  @include('operator.layouts.errors')
+  @include('agent.layouts.errors')
 @endsection
 
 @push('scripts')
-  @include('operator.layouts.scripts.select2_scripts')
-  @include('operator.layouts.scripts.dateTimePicker_scripts')
-  @include('operator.TaxiBookings.scripts.create')
-  @include('operator.layouts.scripts.googleAutoComplete')
+  @include('agent.layouts.scripts.select2_scripts')
+  @include('agent.layouts.scripts.dateTimePicker_scripts')
+  @include('agent.TaxiBookings.scripts.create')
+  @include('agent.layouts.scripts.googleAutoComplete')
   <script>
 
   $("#no_of_seats").change(function()

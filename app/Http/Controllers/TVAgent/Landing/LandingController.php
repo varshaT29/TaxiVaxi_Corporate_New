@@ -3,7 +3,7 @@
 namespace app\Http\Controllers\TVAgent\Landing;
 
 use Illuminate\Http\Request;
-use app\Http\Controllers\TVAgent\Controller;
+use app\Http\Controllers\Controller;
 
 
 

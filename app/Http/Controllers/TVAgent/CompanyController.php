@@ -1,11 +1,8 @@
 <?php
-
-
-
-namespace App\Http\Controllers\Operator;
-use App\Company;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+namespace app\Http\Controllers\TVAgent;
+use app\Company;
+use app\Http\Requests;
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,22 +13,22 @@ class CompanyController extends Controller
   public function index()
   {
     $companys = Company::all();
-    return view('operator.TaxiVaxiClients.index',compact('companys'));
+    return view('agent.TaxiVaxiClients.index',compact('companys'));
   }
 
   public function create()
   {
-    return view('operator.TaxiVaxiClients.create');
+    return view('agent.TaxiVaxiClients.create');
   }
 
   public function settings()
   {
-    return view('operator.TaxiVaxiClients.Management_Settings');
+    return view('agent.TaxiVaxiClients.Management_Settings');
   }
 
   public function show($id) {
     $companys = Company::find($id);
-    return view('operator.TaxiVaxiClients.update', compact('companys'));
+    return view('agent.TaxiVaxiClients.update', compact('companys'));
   }
 
   public function submit(Request $request){
@@ -61,7 +58,7 @@ class CompanyController extends Controller
     $company->companybillingaddress =$request->input('companybillingaddress');
     $company->companygst =$request->input('companygst');
     $company->save();
-    return redirect()->route('operator.TaxiVaxiclients');
+    return redirect()->route('Agent.TaxiVaxiclients');
 
   }
   /*
@@ -123,12 +120,12 @@ class CompanyController extends Controller
         Company::where('id', $id)-> update(array('flight_booking' => $flight_booking));
         Company::where('id', $id)-> update(array('hotel_booking' => $hotel_booking));
 
-        return redirect()->route('operator.TaxiVaxiclients');
+        return redirect()->route('Agent.TaxiVaxiclients');
      }
 
      public function showmgmtfee($id) {
        $companys = Company::find($id);
-       return view('operator.TaxiVaxiClients.Management_Settings', compact('companys'));
+       return view('agent.TaxiVaxiClients.Management_Settings', compact('companys'));
      }
 
      public function editmgmtfee(Request $request,$id) {
@@ -149,7 +146,7 @@ class CompanyController extends Controller
          Company::where('id', $id)-> update(array('flight_booking_mgmt_fee' => $flight_booking_mgmt_fee));
          Company::where('id', $id)-> update(array('hotel_booking_mgmt_fee' => $hotel_booking_mgmt_fee));
 
-         return redirect()->route('operator.TaxiVaxiclients');
+         return redirect()->route('Agent.TaxiVaxiclients');
       }
 
 

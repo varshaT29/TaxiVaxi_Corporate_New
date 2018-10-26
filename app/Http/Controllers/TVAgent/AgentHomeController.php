@@ -1,9 +1,9 @@
 <?php
 
 namespace app\Http\Controllers\TVAgent;
-
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use app\UserAgents;
+use app\Taxivaxi_Admins;
 use Auth;
 
 class AgentHomeController extends Controller
@@ -18,7 +18,7 @@ class AgentHomeController extends Controller
 
   public function dashboard()
   {
-  
+
     return view('agent.dashboard');
   }
 

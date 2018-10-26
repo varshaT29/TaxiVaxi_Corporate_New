@@ -76,7 +76,7 @@ return [
 
          'agents' => [
              'driver' => 'eloquent',
-            'model' => app\UserAgents::class,
+            'model' => app\Taxivaxi_Admins::class,
          ],
     ],
 

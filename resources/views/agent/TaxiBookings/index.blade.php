@@ -1,11 +1,11 @@
-@extends('operator.layouts.master')
+@extends('agent.layouts.master')
 
 @push('styles')
-  @include('operator.layouts.styles.dataTable_styles')
+  @include('agent.layouts.styles.dataTable_styles')
 @endpush
 
 @section('content')
-  @include('operator.layouts.nav')
+  @include('agent.layouts.nav')
   <div class="container profile-block">
       <div class="row">
         <div class="col-xs-12">
@@ -25,7 +25,8 @@
               </thead>
               <tbody>
                 @foreach($bookings as $booking)
-               <tr class="client-row" id="{{ $booking->id }}">
+
+                 <tr class="client-row" id="{{ $booking->id }}">
                  <td>&nbsp;&nbsp;{{ $booking->taxibooking_companyname }}</td>
                  <td>{{ $booking->tourtype }}</td>
                  <td>{{ $booking->pickup_location }}</td>
@@ -33,7 +34,7 @@
                  <td>{{ $booking->pickupdatetime }}</td>
                  <td>{{ $booking->bookingdatetime }}</td>
                  <td class="details-col">
-                   <a href="{{ route('operator.show-passengerdetail',['id' => $booking->id]) }}">
+                   <a href="{{ route('Agent.show-passengerdetail',['id' => $booking->id]) }}">
                      <i class="fas fa-users"></i>
                    </a>
                  </td>
@@ -47,5 +48,5 @@
  </div>
 
 
-  @include('operator.layouts.errors')
+  @include('agent.layouts.errors')
 @endsection

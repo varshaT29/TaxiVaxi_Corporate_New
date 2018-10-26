@@ -18,10 +18,9 @@
 
 Route::prefix('agents')->group(function() {
 
-Route::get('/signup', 'TVAgent\Landing\LandingController@signup')->name('agent.signup');
-Route::get('/', 'TVAgent\Landing\LandingController@landing')->name('agent.landing');
-
-Route::get('contact', 'TVAgent\Landing\LandingController@contact')->name('agent.contact');
+    Route::get('/signup', 'TVAgent\Landing\LandingController@signup')->name('agent.signup');
+    Route::get('/', 'TVAgent\Landing\LandingController@landing')->name('agent.landing');
+    Route::get('contact', 'TVAgent\Landing\LandingController@contact')->name('agent.contact');
     Route::get('/login', 'TVAgent\SessionController@login')->name('agent.login');
     Route::get('/reset-password', 'TVAgent\SessionController@resetPassword')->name('agent.reset-password');
     Route::post('/login', 'TVAgent\SessionController@post_login')->name('agent.post-login');
@@ -57,7 +56,3 @@ Route::get('contact', 'TVAgent\Landing\LandingController@contact')->name('agent.
     });
 
   });
-
-
-
-

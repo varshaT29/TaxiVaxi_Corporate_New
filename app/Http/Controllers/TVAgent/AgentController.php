@@ -2,9 +2,9 @@
 
 
 
-namespace App\Http\Controllers\TVAgent;
-use App\UserAgents;
-use App\Http\Controllers\Controller;
+namespace app\Http\Controllers\TVAgent;
+use app\Taxivaxi_Admins;
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,22 +14,22 @@ class AgentController extends Controller
 
   public function index()
   {
-    $users = UserAgents::all();
-    return view('operator.Agents.index',compact('users'));
+    $users = Taxivaxi_Admins::all();
+    return view('agent.Agents.index',compact('users'));
   }
 
   public function create()
   {
-    return view('operator.Agents.create');
+    return view('agent.Agents.create');
   }
 
   public function show($id) {
-     $users = UserAgents::find($id);
-     return view('operator.Agents.Update', compact('users'));
+     $users = Taxivaxi_Admins::find($id);
+     return view('agent.Agents.Update', compact('users'));
   }
 
   public function submit(Request $request){
-    $user = new UserAgents;
+    $user = new Taxivaxi_Admins;
     $user->name =$request->input('name');
     $user->emp_id =$request->input('emp_id');
     $user->email =$request->input('email');
@@ -59,7 +59,7 @@ class AgentController extends Controller
     //Mail::send('emails.send', ['title' => $title, 'message' => $message], function ($message) {
       //   $message->from('varsharani@taxivaxi.com');
         // $message->to('$user->email');});
-     return redirect()->route('operator.agents');
+     return redirect()->route('Agent.agents');
 
   }
   /*
@@ -88,22 +88,22 @@ class AgentController extends Controller
        // $access =implode(',',$request->input('access'));
        $shift_timing_start =$request->input('shift_timing_start');
        $shift_timing_end =$request->input('shift_timing_end');
-        UserAgents::where('id', $id)-> update(array('name' => $name));
-        UserAgents::where('id', $id)-> update(array('email' => $email));
-        UserAgents::where('id', $id)-> update(array('mobile' => $mobile));
-        UserAgents::where('id', $id)-> update(array('company' => $company));
-        UserAgents::where('id', $id)-> update(array('superadmin' => $superadmin));
-        UserAgents::where('id', $id)-> update(array('emp_id' => $emp_id));
-        UserAgents::where('id', $id)-> update(array('has_taxi_booking_access' => $has_taxi_booking_access));
-        UserAgents::where('id', $id)-> update(array('has_bus_booking_access' => $has_bus_booking_access));
-        UserAgents::where('id', $id)-> update(array('has_meal_booking_access' => $has_meal_booking_access));
-        UserAgents::where('id', $id)-> update(array('has_train_booking_access' => $has_train_booking_access));
-        UserAgents::where('id', $id)-> update(array('has_flight_booking_access' => $has_flight_booking_access));
-        UserAgents::where('id', $id)-> update(array('has_billing_access' => $has_billing_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('name' => $name));
+        Taxivaxi_Admins::where('id', $id)-> update(array('email' => $email));
+        Taxivaxi_Admins::where('id', $id)-> update(array('mobile' => $mobile));
+        Taxivaxi_Admins::where('id', $id)-> update(array('company' => $company));
+        Taxivaxi_Admins::where('id', $id)-> update(array('superadmin' => $superadmin));
+        Taxivaxi_Admins::where('id', $id)-> update(array('emp_id' => $emp_id));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_taxi_booking_access' => $has_taxi_booking_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_bus_booking_access' => $has_bus_booking_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_meal_booking_access' => $has_meal_booking_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_train_booking_access' => $has_train_booking_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_flight_booking_access' => $has_flight_booking_access));
+        Taxivaxi_Admins::where('id', $id)-> update(array('has_billing_access' => $has_billing_access));
         // User::where('id', $id)-> update(array('access' => $access));
-        UserAgents::where('id', $id)-> update(array('shift_timing_start' => $shift_timing_start));
-        UserAgents::where('id', $id)-> update(array('shift_timing_end' => $shift_timing_end));
-        return redirect()->route('operator.agents');
+        Taxivaxi_Admins::where('id', $id)-> update(array('shift_timing_start' => $shift_timing_start));
+        Taxivaxi_Admins::where('id', $id)-> update(array('shift_timing_end' => $shift_timing_end));
+        return redirect()->route('Agent.agents');
      }
 
 }
