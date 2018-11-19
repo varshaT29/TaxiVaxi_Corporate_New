@@ -14,78 +14,7 @@ use Carbon\Carbon;
 
 class TaxiBookingsController extends Controller
 {
-    
-    public function __construct()
-  {
-    $this->middleware('auth:agent');
-  }
-  public function getdatafromAPICall($urlcall){
 
-    $user = \Auth::user();
-
-    try {
-      $client = new \GuzzleHttp\Client();
-     $response = $client->get('localhost/Taxivaxi_corporate_new/public/api/'.$urlcall,
-          ['headers' => ['Authorization' => 'Bearer '.$user->api_token]]);
-          
-          $response_msg = json_decode($response->getBody()); 
-          return $response_msg;
-           
-      } catch (\ConnectException $e) {
-          Log::error($e);
-          return error($e);
-      }
-
-
-
-  }
-
-  public function postdatafromAPICall($request,$urlcall){
-
-    $user = \Auth::user();
-    $client = new \GuzzleHttp\Client();
-
-    
-    
-       $response = $client->request('POST', 'localhost/Taxivaxi_corporate_new/public/api/'.$urlcall, [
-           'form_params' => $request,
-           'headers' => [
-               'Authorization' => 'Bearer '.$user->api_token
-           ]
-       ]);
-      
-       return $response->getBody();
-
-
-<<<<<<< HEAD
-  }
-  
-  public function index()
-  {
-    $bookings = $this->getdatafromAPICall('agents/TaxiBookings/list');
-    return view('agent.TaxiBookings.index',compact('bookings'));
-  }
-
-  
-  public function create()
-  {
-    $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
-    $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
-    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
-    $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
-    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
-
-    return view('agent.TaxiBookings.create',compact('companys','empdetails','cities','taxi_types','operatorspackages'));
-  }
-
-  public function showpassenger($id) {
-    $empdets =  $this->getdatafromAPICall('agents/TaxiBookings/'.$id.'/showone');
-    //$empdets = Employee_Details::where('taxibookingid',$id)->get();
-    return view('agent.TaxiBookings.PassengerDetails', compact('empdets'));
-
-  }
-
-=======
     public function __construct()
   {
     $this->middleware('auth:agent');
@@ -135,7 +64,6 @@ class TaxiBookingsController extends Controller
     $bookings = $this->getdatafromAPICall('agents/TaxiBookings/list');
     return view('agent.TaxiBookings.index',compact('bookings'));
   }
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
 
   public function active_unassigned()
   {
@@ -165,11 +93,7 @@ class TaxiBookingsController extends Controller
 
   public function submit(Request $request){
 
-<<<<<<< HEAD
-    $requestparameter = $request->all(); 
-=======
     $requestparameter = $request->all();
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiBookings/submit');
 
     if(strcmp($response,"success")){
@@ -177,11 +101,7 @@ class TaxiBookingsController extends Controller
     }else{
         return redirect()->route('Agent.TaxiBookings');
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
 
   }
 
