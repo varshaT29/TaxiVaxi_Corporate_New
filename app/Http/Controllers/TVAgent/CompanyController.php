@@ -115,6 +115,7 @@ class CompanyController extends Controller
   }
   public function addnewusers(Request $request, $id) {
     $requestparameter = $request->all(); 
+<<<<<<< HEAD
     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/addnewusers');
 
     $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
@@ -123,6 +124,14 @@ class CompanyController extends Controller
       return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
     }else{
       return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+=======
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/addnewusers');
+
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.show-TaxiVaxiclients_user');
+    }else{
+      return redirect()->route('Agent.show-TaxiVaxiclients_user');
+>>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
     }
    
   }

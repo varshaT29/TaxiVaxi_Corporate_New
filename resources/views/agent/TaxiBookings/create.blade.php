@@ -24,7 +24,11 @@
                      <select id="company_id" name="company_id" class="form-control">
                         <option value="" selected>Select Company </option>
                          @foreach ($companys as $company)
+<<<<<<< HEAD
                             <option value="{{ $company->id }}">{{ $company->companyname }} </option>
+=======
+                         <option value="{{ $company->companyname }}" {{ $company->companyname == $company->companyname ? 'selected' : ''}}>{{ $company->companyname }} </option>
+>>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
                          @endforeach
 
                   </select>

@@ -55,6 +55,39 @@ Route::prefix('agents')->group(function() {
         Route::post('/submit', 'TVAgent\TaxiBookingsController@submit')->name('Agent.store-TaxiBookings');
         Route::get('/', 'TVAgent\TaxiBookingsController@index')->name('Agent.TaxiBookings');
         Route::get('/{id}/show', 'TVAgent\TaxiBookingsController@showpassenger')->name('Agent.show-passengerdetail');
+        Route::get('/unassigned', 'TVAgent\TaxiBookingsController@active_unassigned')->name('Agent.active-unassigned-TaxiBookings');
+        Route::post('/{id}/assign-driver-taxi', 'TVAgent\TaxiBookingsController@assign-driver-taxi')->name('Agent.assign-driver-taxi');
+        Route::get('/{id}/passengerlist', 'TVAgent\TaxiBookingsController@passengerlist')->name('Agent.show-passengerlist');
+        Route::post('/{id}/edittaxibooking', 'TVAgent\TaxiBookingsController@edittaxibooking')->name('Agent.edit-taxi-booking');
+        Route::get('/cancelled', 'TVAgent\TaxiBookingsController@cancelled')->name('Agent.taxi-bookings-cancelled');
+    });
+
+        Route::prefix('Operator')->group(function() {
+        Route::get('/create', 'TVAgent\OperatorsController@create')->name('Operator.create-operator');
+        Route::post('/submit', 'TVAgent\OperatorsController@submit')->name('Operator.store-operator');
+        Route::get('/', 'TVAgent\OperatorsController@index')->name('Operator.operator');
+        Route::get('/{id}/show', 'TVAgent\OperatorsController@show')->name('Operator.show-operator');
+        Route::post('/{id}/edit', 'TVAgent\OperatorsController@edit')->name('Operator.edit-operator');
+        Route::get('/{id}/delete', 'TVAgent\OperatorsController@delete')->name('Operator.delete-operator');
+
+        Route::get('/operator_rateform', 'TVAgent\OperatorsController@operator_rateform')->name('Operator.create-rateform');
+        Route::post('/rateform_submit', 'TVAgent\OperatorsController@operator_store_rateform')->name('Operator.store-rateform');
+        Route::get('/showrate', 'TVAgent\OperatorsController@operator_show_rateform')->name('Operator.show-rateform');
+        Route::get('/{id}/rateedit', 'TVAgent\OperatorsController@operator_edit_rateform')->name('Operator.edit-rateform');
+        Route::post('/{id}/rateeditsave', 'TVAgent\OperatorsController@operator_editsave_rateform')->name('Operator.editsave-rateform');
+        Route::get('/{id}/ratedelete', 'TVAgent\OperatorsController@operator_delete_rateform')->name('Operator.delete-rateform');
+
+
+    });
+
+
+    Route::prefix('TaxiVaxiclients_CompanyRate')->group(function() {
+        Route::get('/createCompanyRate', 'TVAgent\CompanyController@createCompanyRate')->name('Agent.create-TaxiVaxiclients_CompanyRate');
+        Route::post('/submitCompanyRate', 'TVAgent\CompanyController@submitCompanyRate')->name('Agent.store-TaxiVaxiclients_CompanyRate');
+        Route::get('/', 'TVAgent\CompanyController@indexCompanyRate')->name('Agent.TaxiVaxiclients_CompanyRate');
+        Route::get('/{id}/showCompanyRate', 'TVAgent\CompanyController@showCompanyRate')->name('Agent.show-TaxiVaxiclients_CompanyRate');
+        Route::post('/{id}/editCompanyRate', 'TVAgent\CompanyController@editCompanyRate')->name('Agent.edit-TaxiVaxiclients_CompanyRate');
+        Route::get('/{id}/deleteCompanyRate', 'TVAgent\CompanyController@deleteCompanyRate')->name('Agent.delete-TaxiVaxiclients_CompanyRate');
     });
 
         Route::prefix('Operator')->group(function() {
