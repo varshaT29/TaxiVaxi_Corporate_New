@@ -68,7 +68,7 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="feature-center animate-box" data-animate-effect="fadeInUp">
             <span class="icon">
-              <img src="/landing/images/server.svg">
+              <img src="landing/images/server.svg">
             </span>
             <h3>Confidentiality</h3>
             <p>We offer data security such that no 3rd Party is able to access the client data or the operator data.</p>
@@ -77,7 +77,7 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="feature-center animate-box" data-animate-effect="fadeInUp">
             <span class="icon">
-              <img src="/landing/images/clipboards.svg">
+              <img src="landing/images/clipboards.svg">
             </span>
             <h3>Trustworthy</h3>
             <p>
@@ -107,7 +107,7 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="feature-center animate-box" data-animate-effect="fadeInUp">
             <span class="icon">
-              <img src="/landing/images/cloud.svg">
+              <img src="landing/images/cloud.svg">
             </span>
             <h3>Paperless Billing</h3>
             <p>All booking details are visible on the dashboard – no need for maintaining bulky registers!
@@ -119,7 +119,7 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="feature-center animate-box" data-animate-effect="fadeInUp">
             <span class="icon">
-              <img src="/landing/images/screen.svg">
+              <img src="landing/images/screen.svg">
             </span>
             <h3>Seamless Booking Flow</h3>
             <p>Get email alerts for potential bookings.

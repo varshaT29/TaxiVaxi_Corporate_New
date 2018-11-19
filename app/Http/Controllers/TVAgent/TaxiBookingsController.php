@@ -15,62 +15,93 @@ use Carbon\Carbon;
 class TaxiBookingsController extends Controller
 {
 
-  public function create()
+    public function __construct()
   {
-    $companys = Company::all();
+    $this->middleware('auth:agent');
+  }
+  public function getdatafromAPICall($urlcall){
 
-    $empdetails = Employee_Details::all();
-    return view('agent.TaxiBookings.create',compact('companys','empdetails'));
+    $user = \Auth::user();
+
+    try {
+      $client = new \GuzzleHttp\Client();
+     $response = $client->get('localhost/Taxivaxi_corporate_new/public/api/'.$urlcall,
+          ['headers' => ['Authorization' => 'Bearer '.$user->api_token]]);
+
+          $response_msg = json_decode($response->getBody());
+          return $response_msg;
+
+      } catch (\ConnectException $e) {
+          Log::error($e);
+          return error($e);
+      }
+
+
+
   }
 
-  public function showpassenger($id) {
-    $empdets = Employee_Details::where('taxibookingid',$id)->get();
-    return view('agent.TaxiBookings.PassengerDetails', compact('empdets'));
+  public function postdatafromAPICall($request,$urlcall){
+
+    $user = \Auth::user();
+    $client = new \GuzzleHttp\Client();
+
+
+
+       $response = $client->request('POST', 'localhost/Taxivaxi_corporate_new/public/api/'.$urlcall, [
+           'form_params' => $request,
+           'headers' => [
+               'Authorization' => 'Bearer '.$user->api_token
+           ]
+       ]);
+
+       return $response->getBody();
+
 
   }
 
   public function index()
   {
-    $bookings = Bookings::whereDate('created_at', Carbon::today())->get();
+    $bookings = $this->getdatafromAPICall('agents/TaxiBookings/list');
     return view('agent.TaxiBookings.index',compact('bookings'));
   }
 
+  public function active_unassigned()
+  {
+    $bookings = $this->getdatafromAPICall('agents/TaxiBookings/listunassigned');
+    $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+    return view('agent.TaxiBookings.TaxiBooking-active-unassigned',compact('bookings','companys','cities'));
+  }
+
+
+  public function create()
+  {
+    $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
+
+    $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
+
+    return view('agent.TaxiBookings.create',compact('companys','empdetails'));
+  }
+
+  public function showpassenger($id) {
+    $empdets =  $this->getdatafromAPICall('agents/TaxiBookings/'.$id.'/showone');
+    //$empdets = Employee_Details::where('taxibookingid',$id)->get();
+    return view('agent.TaxiBookings.PassengerDetails', compact('empdets'));
+
+  }
+
+
   public function submit(Request $request){
 
-    $bookings = new Bookings;
-    $empdet = new Employee_Details;
+    $requestparameter = $request->all();
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiBookings/submit');
 
-    $bookings->taxibooking_companyname =$request->input('taxibooking_companyname');
-    $bookings->tourtype =$request->input('tourtype');
-    $bookings->pickup_location=$request->input('pickup_location');
-    $bookings->drop_location = $request->input('drop_location');
-    $bookings->bookingdatetime =$request->input('bookingdatetime');
-    $bookings->pickupdatetime =$request->input('pickupdatetime');
-    $bookings->assessmentcode =$request->input('assessmentcode');
-    $bookings->billing_entity =$request->input('billing_entity');
-    $bookings->reason_for_booking =$request->input('reason_for_booking');
-    $bookings->send_sms =$request->input('send_sms');
-    $bookings->send_email =$request->input('send_email');
-    $bookings->spocname =$request->input('spocname');
-    $bookings->no_of_seats=$request->input('no_of_seats');
-    $bookings->save();
-    $eid=$bookings->id;
-    $no_of_seats_data = $bookings->no_of_seats;
-    for($i=0;$i<$no_of_seats_data;$i++)
-    {
-            $data = array(
-                            'taxibookingid'=>$eid,
-                            'employeename'=>$request->employeename [$i],
-                            'employeeid'=>$request->employeeid [$i],
-                            'employeecontact'=>$request->employeecontact [$i],
-                            'employeeemail'=>$request->employeeemail [$i],
-                );
-            Employee_Details::insert($data);
-        }
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.TaxiBookings');
+    }else{
+        return redirect()->route('Agent.TaxiBookings');
+    }
 
-
-    $bookings->save();
-    return redirect()->route('Agent.create-TaxiBookings');
 
   }
 

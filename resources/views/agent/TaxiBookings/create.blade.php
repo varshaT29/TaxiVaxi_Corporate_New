@@ -23,7 +23,7 @@
                   <label>COMPANY NAME*</label>
                      <select name="taxibooking_companyname" class="form-control">
                          @foreach ($companys as $company)
-                              <option value="{{ $company->companyname  }}" {{old('companys') == $company ? 'selected' : ''}}>{{ $company->companyname }} </option>
+                         <option value="{{ $company->companyname }}" {{ $company->companyname == $company->companyname ? 'selected' : ''}}>{{ $company->companyname }} </option>
                          @endforeach
 
                   </select>

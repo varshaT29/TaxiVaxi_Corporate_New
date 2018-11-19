@@ -21,6 +21,7 @@
                   <th>SPOC Approval</th>
                   <th>Admin Approval</th>
                   <th>Management Settings</th>
+                  <th>Users</th>
                   <th>Edit</th>
                 </tr>
               </thead>
@@ -37,6 +38,9 @@
                    <a href="{{ route('Agent.show-TaxiVaximgmtfee',['id' => $company->id]) }}">
                      <i class="fas fa-cog"></i>
                    </a>
+                 </td>
+                 <td><a href="{{ route('Agent.show-TaxiVaxiclients_user', ['id' => $company->id]) }}">
+                     <i class="fas fa-users"></i>
                  </td>
                  <td><a href="{{ route('Agent.show-TaxiVaxiclients', ['id' => $company->id]) }}">
                       Edit
