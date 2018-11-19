@@ -77,10 +77,13 @@ class TaxiBookingsController extends Controller
   public function create()
   {
     $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
-
     $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+    $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
 
-    return view('agent.TaxiBookings.create',compact('companys','empdetails'));
+    return view('agent.TaxiBookings.create',compact('companys','empdetails','cities','taxi_types','operatorspackages'));
+
   }
 
   public function showpassenger($id) {
