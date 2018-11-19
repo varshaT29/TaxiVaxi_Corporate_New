@@ -86,6 +86,9 @@ Route::prefix('TaxiBookings')->group(function() {
     Route::get('/getcompany', 'API_Controller\ApiTaxiBookingsController@getcompanydetails');
     Route::get('/employeelist', 'API_Controller\ApiTaxiBookingsController@getallemployee');
     Route::get('/listunassigned', 'API_Controller\ApiTaxiBookingsController@active_unassigned');
+
+    Route::get('/{id}/getallCompanyspoc', 'API_Controller\ApiTaxiBookingsController@getallCompanyspoc');
+   Route::get('/{id}/getallemployee', 'API_Controller\ApiTaxiBookingsController@getallCompemployee');
 });
 
 
