@@ -10,15 +10,89 @@ class CompanyController extends Controller
 {
   private $pwd;
 
+    public function __construct()
+  {
+    $this->middleware('auth:agent');
+  }
+
+  
+  public function getdatafromAPICall($urlcall){
+
+    $user = \Auth::user();
+
+    try {
+      $client = new \GuzzleHttp\Client();
+     $response = $client->get('localhost/Taxivaxi_corporate_new/public/api/'.$urlcall,
+          ['headers' => ['Authorization' => 'Bearer '.$user->api_token]]);
+          
+          $response_msg = json_decode($response->getBody()); 
+          return $response_msg;
+           
+      } catch (\ConnectException $e) {
+          Log::error($e);
+          return error($e);
+      }
+
+
+
+  }
+
+  public function postdatafromAPICall($request,$urlcall){
+
+    $user = \Auth::user();
+    $client = new \GuzzleHttp\Client();
+
+    
+    
+       $response = $client->request('POST', 'localhost/Taxivaxi_corporate_new/public/api/'.$urlcall, [
+           'form_params' => $request,
+           'headers' => [
+               'Authorization' => 'Bearer '.$user->api_token
+           ]
+       ]);
+      
+       return $response->getBody();
+
+
+  }
+
+
+
+
   public function index()
   {
-    $companys = Company::all();
-    return view('agent.TaxiVaxiClients.index',compact('companys'));
+    $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/list');
+    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
+    $taxitypes = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+
+    return view('agent.TaxiVaxiClients.index',compact('companys','operatorspackages','taxitypes','cities'));
+  }
+
+  public function indexCompanyRate()
+  {
+    $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/list');
+    $companyrates = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/listcomprate');
+    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
+    $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+
+    return view('agent.TaxiVaxiClients.indexCompanyRate',compact('companyrates','operatorspackages','companys','taxi_types','cities'));
   }
 
   public function create()
   {
     return view('agent.TaxiVaxiClients.create');
+  }
+
+  public function createCompanyRate()
+  {
+    $companys  = $this->getdatafromAPICall('agents/TaxiVaxiclients/list');
+    $taxitypes = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+
+    return view('agent.TaxiVaxiClients.companyrates',compact('companys','taxitypes','operatorspackages','cities'));
   }
 
   public function settings()
@@ -27,126 +101,125 @@ class CompanyController extends Controller
   }
 
   public function show($id) {
-    $companys = Company::find($id);
-    return view('agent.TaxiVaxiClients.update', compact('companys'));
+    $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone');
+   
+    return view('agent.TaxiVaxiClients.Update',compact('companys'));
+   
   }
+
+  public function showusers($id) {
+    $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
+   
+    return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+   
+  }
+  public function addnewusers(Request $request, $id) {
+    $requestparameter = $request->all(); 
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/addnewusers');
+
+    $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
+   
+    if(strcmp($response,"success")){
+      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+    }else{
+      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+    }
+   
+  }
+  
+  
+  public function showCompanyRate($id) {
+    $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/list');
+    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+    $taxitypes = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+    $companyrates = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/'.$id.'/showCompanyRate');
+    return view('agent.TaxiVaxiClients.updateCompanyRate', compact('companyrates','companys','taxitypes','cities'));
+  }
+
 
   public function submit(Request $request){
+    $requestparameter = $request->all(); 
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/submit');
 
-    $company = new Company;
-    $company->companyname =$request->input('companyname');
-    $company->companycode =$request->input('companycode');
-    $pwd=$request->input('companypassword');
-    $company->companypassword =Hash::make($pwd);
-    //$user->password =Hash::make(str_random(8));
-    $company->contactperson =$request->input('contactperson');
-    $company->contactnumber =$request->input('contactnumber');
-    $company->contactemail =$request->input('contactemail');
-    $company->spoc_approval =$request->input('spoc_approval');
-    $company->admin_approval =$request->input('admin_approval');
-    $company->hasapproverlevel =$request->input('hasapproverlevel');
-    $company->hasbothapprover =$request->input('hasbothapprover');
-    // $company->hasnoapprover =$request->input('hasnoapprover');
-    $company->bus_booking =$request->input('bus_booking');
-    $company->local_booking =$request->input('local_booking');
-    $company->outstation_booking =$request->input('outstation_booking');
-    $company->radio_booking =$request->input('radio_booking');
-    $company->train_booking =$request->input('train_booking');
-    $company->hotel_booking =$request->input('hotel_booking');
-    $company->flight_booking =$request->input('flight_booking');
-    $company->companybillingname =$request->input('companybillingname');
-    $company->companybillingaddress =$request->input('companybillingaddress');
-    $company->companygst =$request->input('companygst');
-    $company->save();
-    return redirect()->route('Agent.TaxiVaxiclients');
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.TaxiVaxiclients');
+    }else{
+      return redirect()->route('Agent.TaxiVaxiclients');
+    }
+    
+  }
+
+  public function submitCompanyRate(Request $request){
+
+    $requestparameter = $request->all(); 
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients_CompanyRate/submitCompanyRate');
+
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }else{
+      return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }
 
   }
-  /*
-    public function mail()
-    {
-        $name = $request->input('name');
-        $sendemail=$request->input('email');
-        Mail::to($sendemail)->send(new SendMailable($name));
-        return 'Email was sent';
-    }*/
+
+
+  public function delete($id) {
+    $companys = Company::find($id);
+    $companys->delete($id);
+    return redirect()->route('Agent.TaxiVaxiclients');
+ }
+
+ public function editCompanyRate(Request $request,$id) {
+
+  $requestparameter = $request->all(); 
+  $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients_CompanyRate/'.$id.'/editCompanyRate');
+
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }else{
+        return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }
+    
+ }
+ public function deleteCompanyRate($id) {
+    $response =$this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/'.$id.'/deleteCompanyRate');
+    if(strcmp($response,"success")){
+      return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }else{
+      return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
+    }
+ }
+
 
     public function edit(Request $request,$id) {
 
-       $companyname =$request->input('companyname');
-       $companycode =$request->input('companycode');
-       $contactperson =$request->input('contactperson');
-       $contactnumber =$request->input('contactnumber');
-       $contactemail =$request->input('contactemail');
-       $companypassword =$request->input('companypassword');
-       $companybillingname =$request->input('companybillingname');
-       $companybillingaddress =$request->input('companybillingaddress');
-       $companygst =$request->input('companygst');
-       // $companyapprovaltype =implode(',',$request->input('companyapprovaltype'));
-       // $companybookingtype =implode(',',$request->input('companybookingtype'));
-       $spoc_approval =$request->input('spoc_approval');
-       $admin_approval =$request->input('admin_approval');
-       $hasapproverlevel =$request->input('hasapproverlevel');
-       $hasbothapprover =$request->input('hasbothapprover');
-       // $hasnoapprover =$request->input('hasnoapprover');
-       $bus_booking =$request->input('bus_booking');
-       $local_booking =$request->input('local_booking');
-       $outstation_booking =$request->input('outstation_booking');
-       $radio_booking =$request->input('radio_booking');
-       $train_booking =$request->input('train_booking');
-       $hotel_booking =$request->input('hotel_booking');
-       $flight_booking =$request->input('flight_booking');
-
-        Company::where('id', $id)-> update(array('companyname' => $companyname));
-        Company::where('id', $id)-> update(array('companycode' => $companycode));
-        Company::where('id', $id)-> update(array('contactperson' => $contactperson));
-        Company::where('id', $id)-> update(array('contactnumber' => $contactnumber));
-        Company::where('id', $id)-> update(array('contactemail' => $contactemail));
-        Company::where('id', $id)-> update(array('companypassword' => $companypassword));
-        Company::where('id', $id)-> update(array('companybillingname' => $companybillingname));
-        Company::where('id', $id)-> update(array('companybillingaddress' => $companybillingaddress));
-        Company::where('id', $id)-> update(array('companygst' => $companygst));
-        // Company::where('id', $id)-> update(array('companyapprovaltype' => $companyapprovaltype));
-        // Company::where('id', $id)-> update(array('companybookingtype' => $companybookingtype));
-        Company::where('id', $id)-> update(array('spoc_approval' => $spoc_approval));
-        Company::where('id', $id)-> update(array('admin_approval' => $admin_approval));
-        Company::where('id', $id)-> update(array('hasapproverlevel' => $hasapproverlevel));
-        Company::where('id', $id)-> update(array('hasbothapprover' => $hasbothapprover));
-        // Company::where('id', $id)-> update(array('hasnoapprover' => $hasnoapprover));
-        Company::where('id', $id)-> update(array('radio_booking' => $radio_booking));
-        Company::where('id', $id)-> update(array('local_booking' => $local_booking));
-        Company::where('id', $id)-> update(array('outstation_booking' => $outstation_booking));
-        Company::where('id', $id)-> update(array('bus_booking' => $bus_booking));
-        Company::where('id', $id)-> update(array('train_booking' => $train_booking));
-        Company::where('id', $id)-> update(array('flight_booking' => $flight_booking));
-        Company::where('id', $id)-> update(array('hotel_booking' => $hotel_booking));
-
-        return redirect()->route('Agent.TaxiVaxiclients');
+      $requestparameter = $request->all(); 
+      $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/edit');
+    
+        if(strcmp($response,"success")){
+          return redirect()->route('Agent.TaxiVaxiclients');
+        }else{
+            return redirect()->route('Agent.TaxiVaxiclients');
+        }
+        
      }
 
      public function showmgmtfee($id) {
-       $companys = Company::find($id);
-       return view('agent.TaxiVaxiClients.Management_Settings', compact('companys'));
-     }
+      $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showmgmtfee');
+      return view('agent.TaxiVaxiClients.Management_Settings',compact('companys'));
+      }
 
      public function editmgmtfee(Request $request,$id) {
 
-        $radio_booking_mgmt_fee =$request->input('radio_booking_mgmt_fee');
-        $local_booking_mgmt_fee =$request->input('local_booking_mgmt_fee');
-        $outstation_booking_mgmt_fee =$request->input('outstation_booking_mgmt_fee');
-        $bus_booking_mgmt_fee =$request->input('bus_booking_mgmt_fee');
-        $train_booking_mgmt_fee =$request->input('train_booking_mgmt_fee');
-        $flight_booking_mgmt_fee =$request->input('flight_booking_mgmt_fee');
-        $hotel_booking_mgmt_fee =$request->input('hotel_booking_mgmt_fee');
-
-         Company::where('id', $id)-> update(array('radio_booking_mgmt_fee' => $radio_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('local_booking_mgmt_fee' => $local_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('outstation_booking_mgmt_fee' => $outstation_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('bus_booking_mgmt_fee' => $bus_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('train_booking_mgmt_fee' => $train_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('flight_booking_mgmt_fee' => $flight_booking_mgmt_fee));
-         Company::where('id', $id)-> update(array('hotel_booking_mgmt_fee' => $hotel_booking_mgmt_fee));
-
-         return redirect()->route('Agent.TaxiVaxiclients');
+      $requestparameter = $request->all(); 
+      $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/editmgmtfee');
+    
+        if(strcmp($response,"success")){
+          return redirect()->route('Agent.TaxiVaxiclients');
+        }else{
+            return redirect()->route('Agent.TaxiVaxiclients');
+        }
+        
       }
 
 

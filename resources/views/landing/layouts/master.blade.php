@@ -44,20 +44,20 @@
     </script>
 
   	<!-- Animate.css -->
-  	<link rel="stylesheet" href="/landing/css/animate.css">
+  	<link rel="stylesheet" href="{{ URL::asset('landing/css/animate.css') }}">
   	<!-- Icomoon Icon Fonts-->
-  	<link rel="stylesheet" href="/landing/css/icomoon.css">
+  	<link rel="stylesheet" href="{{ URL::asset('landing/css/icomoon.css') }}">
   	<!-- Bootstrap  -->
-  	<link rel="stylesheet" href="/landing/css/bootstrap.css">
+  	<link rel="stylesheet" href="{{ URL::asset('landing/css/bootstrap.css') }}">
 
   	<!-- Magnific Popup -->
-  	<link rel="stylesheet" href="/landing/css/magnific-popup.css">
+  	<link rel="stylesheet" href="{{ URL::asset('landing/css/magnific-popup.css') }}">
 
   	<!-- Theme style  -->
-  	<link rel="stylesheet" href="/landing/css/style.css">
+  	<link rel="stylesheet" href="{{ URL::asset('landing/css/style.css') }}">
 
   	<!-- Modernizr JS -->
-  	<script src="/landing/js/modernizr-2.6.2.min.js"></script>
+  	<script src="{{ URL::asset('landing/js/modernizr-2.6.2.min.js') }}"></script>
   </head>
 
   <body>
@@ -103,21 +103,21 @@
   	</div>
 
   	<!-- jQuery -->
-  	<script src="/landing/js/jquery.min.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.min.js') }}"></script>
   	<!-- jQuery Easing -->
-  	<script src="/landing/js/jquery.easing.1.3.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.easing.1.3.js') }}"></script>
   	<!-- Bootstrap -->
-  	<script src="/landing/js/bootstrap.min.js"></script>
+  	<script src="{{ URL::asset('landing/js/bootstrap.min.js') }}"></script>
   	<!-- Waypoints -->
-  	<script src="/landing/js/jquery.waypoints.min.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.waypoints.min.js') }}"></script>
   	<!-- countTo -->
-  	<script src="/landing/js/jquery.countTo.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.countTo.js') }}"></script>
   	<!-- Magnific Popup -->
-  	<script src="/landing/js/jquery.magnific-popup.min.js"></script>
-  	<script src="/landing/js/magnific-popup-options.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.magnific-popup.min.js') }}"></script>
+  	<script src="{{ URL::asset('landing/js/magnific-popup-options.js') }}"></script>
   	<!-- Stellar -->
-  	<script src="/landing/js/jquery.stellar.min.js"></script>
+  	<script src="{{ URL::asset('landing/js/jquery.stellar.min.js') }}"></script>
   	<!-- Main -->
-  	<script src="/landing/js/main.js"></script>
+  	<script src="{{ URL::asset('landing/js/main.js') }}"></script>
   </body>
 </html>

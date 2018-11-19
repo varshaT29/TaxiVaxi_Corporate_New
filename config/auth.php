@@ -45,6 +45,10 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+        'agent-api' => [
+            'driver' => 'token',
+            'provider' => 'agents',
+        ],
         'agent' => [
           'driver' => 'session',
           'provider'  =>  'agents'

@@ -3,9 +3,9 @@
 <html>
 <head>
 	<title>Login</title>
-	<link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="/css/style-ori.css" />
-	<link rel="stylesheet" type="text/css" href="/landing/css/login.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ URL::asset('css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ URL::asset('css/style-ori.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('landing/css/login.css') }}">
 </head>
 
 <body>
@@ -61,7 +61,7 @@
 					<p style="text-align:center; color:red">{{ $flash }}</p>
 			@endif
 			<div class="login-btn-last-row">
-				<input type="button" id="btnlogin" class="custom-submit-btn" value="Login"/>
+				<input type="submit" id="btnlogin" class="custom-submit-btn" value="Login"/>
 			</div>
 			<div class="login-forget-wrap">
 				<p>Forget Password ? <span><a href="{{ route('agent.reset-password') }}">Reset Here</a></span></p>
@@ -69,36 +69,7 @@
 		</form>
 	</div>
 
-<script src="/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript">
 
-	$(document).ready(function(){
-    
-
-		$("#btnlogin").click(function(){
-		    $.post("{{ route('agent.post-login') }}",{_token:$('input[name=_token]').val(),email:$('#email').val(),password:$('#password').val()}, function(data){
-		        alert("Data: " + data);
-		        var json = $.parseJSON(data);
-
-		        if(json[0].message=="success"){
-		        	alert('Login Successfully');
-		        	window.location="/agents/dashboard"
-		        }
-
-		        if(json[0].message=="fail"){
-					alert('worng pwd');
-					window.location="/agents/login"
-		        }
-
-
-		    });
-		});
-
-
-});
-
-
-	</script>
 </body>
 
 </html>

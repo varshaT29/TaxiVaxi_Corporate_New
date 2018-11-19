@@ -4,6 +4,7 @@
 
 @push('styles')
   @include('agent.layouts.styles.select2_styles')
+  @include('agent.layouts.styles.dateTimePicker_styles')
 @endpush
 
 
@@ -92,11 +93,11 @@
               <div class="col-lg-3 col-md-3 col-xs-12">
                 <div>
                   <label>SHIFT START</label>
-                  <input type="time" class="form-control" name="shift_timing_start">
+                 <input type='text' class="form-control time-input" id='datetimepicker1' name="shift_timing_start" required />
                 </div>
                 <div>
                   <label>SHIFT END</label>
-                  <input type="time" class="form-control" name="shift_timing_end">
+                  <input type='text' class="form-control time-input" id='datetimepicker2' name="shift_timing_end" required />
                 </div>
               </div>
               </div>
@@ -114,41 +115,6 @@
 @endsection
 
 @push('scripts')
-  @include('agent.layouts.scripts.select2_scripts')
-  <script>
-    $(document).ready(function() {
-      $(".select2-drop").select2();
-    });
-  </script>
-
-  @include('agent.layouts.scripts.googleAutoComplete')
-  <script>
-    $(document).ready(function() {
-      var input = document.getElementById('city');
-      var options = {
-        types: ['(cities)'],
-        componentRestrictions: {country: "in"}
-      };
-
-      autocomplete = new google.maps.places.Autocomplete(input, options);
-      autocomplete.addListener('place_changed', fillInAddressChanged);
-
-      function fillInAddressChanged() { // Called after city>change event
-          var place = window.autocomplete.getPlace();
-          if(place)
-            $('#city_check').val('ok');
-      }
-
-      $('#city').change(function() {
-        $('#city_check').val('');
-      });
-
-      $('#addClientForm').submit(function () {
-        if($('#city_check').val() != 'ok') {
-          alert('Please select City from dropdown');
-          return false;
-        }
-      });
-    });
-  </script>
+@include('agent.layouts.scripts.dateTimePicker_scripts')
+@include('agent.Agents.scripts.create')
 @endpush

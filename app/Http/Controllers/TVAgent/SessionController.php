@@ -26,22 +26,11 @@ class SessionController extends Controller
     if(Auth::guard('agent')->attempt(request(['email', 'password']), false)) {
       session()->put('active_tab', 'Dashboard');
       session()->flash('success-message', 'Logged In, Welcome!!');
-
-      $response = array();
-      $response[0] = array(
-          'message' => 'success',
-          'email'=> request(['email']),
-      );
-      return json_encode($response);
+      return redirect()->intended(route('agent.dashboard'));
     }
 
     session()->flash('fail-message', 'Login Failed. Incorrect Username or Password.');
-
-     $response = array();
-      $response[0] = array(
-          'message' => 'fail',
-      );
-      return json_encode($response);
+    return back();
   }
 
 
