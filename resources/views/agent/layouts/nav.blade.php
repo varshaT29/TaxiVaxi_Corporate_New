@@ -3,11 +3,6 @@
     <li class="set-active-tab {{ session('active_tab') == 'Dashboard' ? 'li-active' : '' }}" id="Dashboard">
       <a href="{{ route('agent.dashboard') }}">Dashboard</a>
     </li>
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
         <li class="set-active-tab dropdown {{ session('active_tab') == 'TaxiVaxi_Agents' ? 'li-active' : '' }}" id="TaxiVaxi_Agents">
       <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Operator
         <span class="caret"></span>
@@ -27,11 +22,7 @@
         </li>
       </ul>
     </li>
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
     <li class="set-active-tab dropdown {{ session('active_tab') == 'TaxiVaxi_Agents' ? 'li-active' : '' }}" id="TaxiVaxi_Agents">
       <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TaxiVaxi Agents
         <span class="caret"></span>
