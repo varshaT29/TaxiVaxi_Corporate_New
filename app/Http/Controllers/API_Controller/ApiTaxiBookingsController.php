@@ -6,6 +6,7 @@ use app\Company;
 use app\Bookings;
 use app\Employee_Details;
 use app\Company_UserSpoc;
+use app\TaxiModels;
 use app\Http\Requests;
 use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,7 +32,21 @@ class ApiTaxiBookingsController extends Controller
       return $companys;
     }
 
-    
+    public function gettaximodels()
+    {
+      $taximodels = TaxiModels::all();
+      return $taximodels;
+    }
+
+    public function active_unassigned()
+    {
+      $bookings = Bookings::where('status_id','1')->get();
+      return $bookings;
+    }
+
+
+
+
     public function getallemployee(){
       $empdets = Employee_Details::all();
       return $empdets;
@@ -42,13 +57,20 @@ class ApiTaxiBookingsController extends Controller
       return json_encode($companyspocs);
     }
 
-    
- 
+
+
     public function showpassenger($id) {
       $empdets = Employee_Details::where('taxibookingid',$id)->get();
       return $empdets;
-  
+
     }
+
+
+    public function showonebooking($id) {
+        $bookings = Bookings::find($id);
+        return $bookings;
+    }
+
     public function getallCompemployee($id){
       $companyspocs = Employee_Details::where('client_id',$id)->get();
       return json_encode($companyspocs);
@@ -94,7 +116,20 @@ class ApiTaxiBookingsController extends Controller
           } else {
             return "fail";
           }
-    
+
       }
 
+      public function storedrivertaxi(Request $request,$id){
+
+          Bookings::where('id', $id)-> update(array('operator_id' => $request->input('operator_id')));
+          Bookings::where('id', $id)-> update(array('garage_location' => $request->input('garage_location')));
+          Bookings::where('id', $id)-> update(array('garage_distance' => $request->input('garage_distance')));
+          Bookings::where('id', $id)-> update(array('driver_name' => $request->input('driver_name')));
+          Bookings::where('id', $id)-> update(array('driver_contact' => $request->input('driver_contact')));
+          Bookings::where('id', $id)-> update(array('taxi_model_id' => $request->input('taxi_model_id')));
+          Bookings::where('id', $id)-> update(array('taxi_reg_no' => $request->input('taxi_reg_no')));
+          Bookings::where('id', $id)-> update(array('status_id' => '2'));
+          return "success";
+
+      }
 }
