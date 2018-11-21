@@ -15,7 +15,7 @@ class CompanyController extends Controller
     $this->middleware('auth:agent');
   }
 
-  
+
   public function getdatafromAPICall($urlcall){
 
     $user = \Auth::user();
@@ -24,10 +24,10 @@ class CompanyController extends Controller
       $client = new \GuzzleHttp\Client();
      $response = $client->get('localhost/Taxivaxi_corporate_new/public/api/'.$urlcall,
           ['headers' => ['Authorization' => 'Bearer '.$user->api_token]]);
-          
-          $response_msg = json_decode($response->getBody()); 
+
+          $response_msg = json_decode($response->getBody());
           return $response_msg;
-           
+
       } catch (\ConnectException $e) {
           Log::error($e);
           return error($e);
@@ -42,15 +42,15 @@ class CompanyController extends Controller
     $user = \Auth::user();
     $client = new \GuzzleHttp\Client();
 
-    
-    
+
+
        $response = $client->request('POST', 'localhost/Taxivaxi_corporate_new/public/api/'.$urlcall, [
            'form_params' => $request,
            'headers' => [
                'Authorization' => 'Bearer '.$user->api_token
            ]
        ]);
-      
+
        return $response->getBody();
 
 
@@ -102,32 +102,30 @@ class CompanyController extends Controller
 
   public function show($id) {
     $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone');
-   
+
     return view('agent.TaxiVaxiClients.Update',compact('companys'));
-   
+
   }
 
   public function showusers($id) {
     $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
-   
+
     return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
-   
+
   }
   public function addnewusers(Request $request, $id) {
-    $requestparameter = $request->all(); 
+    $requestparameter = $request->all();
     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/addnewusers');
-    
     $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
     if(strcmp($response,"success")){
-      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+    return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
     }else{
-      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
+    return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
     }
 
-   
   }
-  
-  
+
+
   public function showCompanyRate($id) {
     $companys = $this->getdatafromAPICall('agents/TaxiVaxiclients/list');
     $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
@@ -138,7 +136,7 @@ class CompanyController extends Controller
 
 
   public function submit(Request $request){
-    $requestparameter = $request->all(); 
+    $requestparameter = $request->all();
     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/submit');
 
     if(strcmp($response,"success")){
@@ -146,12 +144,12 @@ class CompanyController extends Controller
     }else{
       return redirect()->route('Agent.TaxiVaxiclients');
     }
-    
+
   }
 
   public function submitCompanyRate(Request $request){
 
-    $requestparameter = $request->all(); 
+    $requestparameter = $request->all();
     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients_CompanyRate/submitCompanyRate');
 
     if(strcmp($response,"success")){
@@ -171,7 +169,7 @@ class CompanyController extends Controller
 
  public function editCompanyRate(Request $request,$id) {
 
-  $requestparameter = $request->all(); 
+  $requestparameter = $request->all();
   $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients_CompanyRate/'.$id.'/editCompanyRate');
 
     if(strcmp($response,"success")){
@@ -179,7 +177,7 @@ class CompanyController extends Controller
     }else{
         return redirect()->route('Agent.TaxiVaxiclients_CompanyRate');
     }
-    
+
  }
  public function deleteCompanyRate($id) {
     $response =$this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/'.$id.'/deleteCompanyRate');
@@ -193,15 +191,15 @@ class CompanyController extends Controller
 
     public function edit(Request $request,$id) {
 
-      $requestparameter = $request->all(); 
+      $requestparameter = $request->all();
       $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/edit');
-    
+
         if(strcmp($response,"success")){
           return redirect()->route('Agent.TaxiVaxiclients');
         }else{
             return redirect()->route('Agent.TaxiVaxiclients');
         }
-        
+
      }
 
      public function showmgmtfee($id) {
@@ -211,15 +209,15 @@ class CompanyController extends Controller
 
      public function editmgmtfee(Request $request,$id) {
 
-      $requestparameter = $request->all(); 
+      $requestparameter = $request->all();
       $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/editmgmtfee');
-    
+
         if(strcmp($response,"success")){
           return redirect()->route('Agent.TaxiVaxiclients');
         }else{
             return redirect()->route('Agent.TaxiVaxiclients');
         }
-        
+
       }
 
 

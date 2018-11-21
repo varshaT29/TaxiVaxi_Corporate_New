@@ -21,7 +21,7 @@
           <label>Do you want to Cancel this Booking ?</label>
           <form method="post" id="cancel-form" class="modal-cancel">
             {{ csrf_field() }}
-            <textarea maxlength="150" name="cancel_reason" class="form-control" placeholder="Reason (Optional)" id="cancel_reason"></textarea>
+            <textarea maxlength="150" name="cancel_reason" class="form-control" placeholder="Reason (Optional)" id="cancel_reason" ></textarea>
             <button type="submit" class="btn btn-default">Yes</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </form>
@@ -45,7 +45,7 @@
                 <th>Pickup City</th>
                 <th>Drop Location</th>
                 <th>Tour Type</th>
-                <th>Assign Driver</th>
+                <th>Assign Driver/Taxi</th>
                 <th>Passenger Details</th>
                 <th>Cancel</th>
                 <th>Details</th>
@@ -80,16 +80,15 @@
                   </td>
                   <td>
                     <a href="{{ route('Agent.assign-driver-taxi',['id' => $booking->id]) }}">
-                      <i class="fas fa-user-circle-o"></i>
+                      <i class="fa fa-taxi"></i>
                     </a>
                   </td>
                   <td>
-                    <a href="{{ route('Agent.show-passengerdetail', ['id' => $booking->passenger_id]) }}">
+                    <a href="{{ route('Agent.show-passengerdetail', ['id' => $booking->id]) }}">
                         <i class="fas fa-users"></i>
                   </td>
                  <td class="trash-col">
-                    <a id="cancel_btn" class=""
-                    onclick='cancelFunction({{ '"'.$booking->id.'"' }})' data-toggle="modal" data-target="#cancelModal"><i class="fa fa-trash-alt"></i></a>
+                    <a id="cancel_btn" onclick="cancelFunction(){ }" class="" data-toggle="modal" data-target="#cancelModal"><i class="fa fa-trash-alt"></i></a>
                   </td>
                  <td><a href="{{ route('Agent.edit-taxi-booking', ['id' => $booking->id]) }}">
                        View/Edit
@@ -109,8 +108,13 @@
   @include('agent.layouts.scripts.select2_scripts')
 
   <script>
-    function cancelFunction(booking_id) {
-      $("#cancel-form").attr("action", "/agent/taxi-bookings/"+booking_id+"/cancel/");
-    }
+
+  function cancelFunction(booking_id) {
+
+              
+
+
+  }
+
   </script>
 @endpush

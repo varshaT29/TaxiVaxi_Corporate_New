@@ -73,21 +73,40 @@ class TaxiBookingsController extends Controller
     return view('agent.TaxiBookings.TaxiBooking-active-unassigned',compact('bookings','companys','cities'));
   }
 
+ public function assign_driver_taxi($id){
+   $bookings =  $this->getdatafromAPICall('agents/TaxiBookings/'.$id.'/getbooking');
+   $taximodels = $this->getdatafromAPICall('agents/TaxiBookings/gettaximodels');
+   $operators = $this->getdatafromAPICall('agents/Operator/list');
+   return view('agent.TaxiBookings.driver-taxi-assign',compact('bookings','taximodels','operators'));
+
+ }
+
+   public function storedrivertaxi(Request $request,$id){
+     $requestparameter = $request->all();
+     $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiBookings/'.$id.'/storedrivertaxi');
+
+     if(strcmp($response,"success")){
+       return redirect()->route('Agent.active-unassigned-TaxiBookings');
+     }else{
+         return redirect()->route('Agent.active-unassigned-TaxiBookings');
+     }
+   }
 
   public function create()
   {
-    $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
-    $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
-    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
-    $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
-    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
+  $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
+  $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
+  $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
+  $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
+  $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
 
-    return view('agent.TaxiBookings.create',compact('companys','empdetails','cities','taxi_types','operatorspackages'));
+  return view('agent.TaxiBookings.create',compact('companys','empdetails','cities','taxi_types','operatorspackages'));
 
   }
 
   public function showpassenger($id) {
     $empdets =  $this->getdatafromAPICall('agents/TaxiBookings/'.$id.'/showone');
+    //$empdets = Employee_Details::where('taxibookingid',$id)->get();
     return view('agent.TaxiBookings.PassengerDetails', compact('empdets'));
 
   }
@@ -107,34 +126,22 @@ class TaxiBookingsController extends Controller
 
   }
 
-  public function edittaxibooking($id)
-  {
-    $bookdetails =  $this->getdatafromAPICall('agents/TaxiBookings/'.$id.'/getonebookings');
-
-    $companys = $this->getdatafromAPICall('agents/TaxiBookings/getcompany');
-    $empdetails = $this->getdatafromAPICall('agents/TaxiBookings/employeelist');
-    $cities = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/getcity');
-    $taxi_types = $this->getdatafromAPICall('agents/TaxiVaxiclients_CompanyRate/gettaxitype');
-    $operatorspackages = $this->getdatafromAPICall('agents/Operator/showpackages');
-
-    return view('agent.TaxiBookings.editbooking',compact('bookdetails','companys','empdetails','cities','taxi_types','operatorspackages'));
-
+  public function cancelled(Request $request,$id)
+{
+  $requestparameter = $request->all();
+  $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiBookings/'.$id.'/cancelled');
+   dd($id);die;
+  if(strcmp($response,"success")){
+    return redirect()->route('Agent.active-unassigned-TaxiBookings');
+  }else{
+      return redirect()->route('Agent.active-unassigned-TaxiBookings');
   }
-  
 
-  public function save_edittaxibooking(Request $request,$id)
-  {
-    
-    $requestparameter = $request->all();
-    
-    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiBookings/'.$id.'/save_edittaxibooking');
 
-    if(strcmp($response,"success")){
-      return redirect()->route('Agent.TaxiBookings');
-    }else{
-        return redirect()->route('Agent.TaxiBookings');
-    }
+}
 
-  }
+
+
+
 
 }
