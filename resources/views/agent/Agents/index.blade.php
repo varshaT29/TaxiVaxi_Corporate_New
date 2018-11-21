@@ -49,3 +49,11 @@
 
   @include('agent.layouts.errors')
 @endsection
+@push('scripts')
+  @include('agent.layouts.scripts.dataTable_scripts')
+  @include('agent.layouts.scripts.select2_scripts')
+
+  <script>
+
+  </script>
+@endpush

@@ -24,22 +24,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($bookings as $booking)
-
-                 <tr class="client-row" id="{{ $booking->id }}">
-                 <td>&nbsp;&nbsp;{{ $booking->taxibooking_companyname }}</td>
-                 <td>{{ $booking->tourtype }}</td>
-                 <td>{{ $booking->pickup_location }}</td>
-                 <td>{{ $booking->drop_location }}</td>
-                 <td>{{ $booking->pickupdatetime }}</td>
-                 <td>{{ $booking->bookingdatetime }}</td>
-                 <td class="details-col">
-                   <a href="{{ route('Agent.show-passengerdetail',['id' => $booking->id]) }}">
-                     <i class="fas fa-users"></i>
-                   </a>
-                 </td>
-               </tr>
-             @endforeach
+               
            </tbody>
          </table>
        </div>
@@ -50,3 +35,4 @@
 
   @include('agent.layouts.errors')
 @endsection
+

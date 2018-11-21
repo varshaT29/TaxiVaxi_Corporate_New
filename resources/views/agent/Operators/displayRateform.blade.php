@@ -96,3 +96,13 @@
 
   @include('agent.layouts.errors')
 @endsection
+@push('scripts')
+  @include('agent.layouts.scripts.dataTable_scripts')
+  @include('agent.layouts.scripts.select2_scripts')
+
+  <script>
+    function cancelFunction(booking_id) {
+      $("#cancel-form").attr("action", "/agent/taxi-bookings/"+booking_id+"/cancel/");
+    }
+  </script>
+@endpush

@@ -6,7 +6,6 @@ use app\Company;
 use app\Bookings;
 use app\Employee_Details;
 use app\Company_UserSpoc;
-use app\TaxiModels;
 use app\Http\Requests;
 use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -32,22 +31,9 @@ class ApiTaxiBookingsController extends Controller
       return $companys;
     }
 
-    public function gettaximodels()
+    
+    public function getallemployee()
     {
-      $taximodels = TaxiModels::all();
-      return $taximodels;
-    }
-
-    public function active_unassigned()
-    {
-      $bookings = Bookings::where('status_id','1')->get();
-      return $bookings;
-    }
-
-
-
-
-    public function getallemployee(){
       $empdets = Employee_Details::all();
       return $empdets;
     }
@@ -57,24 +43,35 @@ class ApiTaxiBookingsController extends Controller
       return json_encode($companyspocs);
     }
 
-
-
+    
+ 
     public function showpassenger($id) {
-      $empdets = Employee_Details::where('taxibookingid',$id)->get();
-      return $empdets;
-
+      $empdets = Employee_Details::find($id);
+      return json_encode($empdets);
+  
     }
 
-
-    public function showonebooking($id) {
-        $bookings = Bookings::find($id);
-        return $bookings;
-    }
 
     public function getallCompemployee($id){
       $companyspocs = Employee_Details::where('client_id',$id)->get();
       return json_encode($companyspocs);
     }
+    
+
+    public function getOneCompemployee($id){
+     
+      $empdets=array();
+      $empids = explode(',',$id);
+      
+      for ($i = 0; $i < (sizeof($empids)-1); $i++) {
+        $empdets[] = Employee_Details::find($empids[$i]);
+      }
+      
+      
+      return json_encode($empdets);
+
+    }
+
 
     public function submit(Request $request){
 
@@ -102,7 +99,7 @@ class ApiTaxiBookingsController extends Controller
 
         foreach($quantities as $quan) {
           $pieces = explode("-", $quan);
-          $employees_id .= $pieces[0];
+          $employees_id .=$pieces[0].',';
           $i++;
         }
         $bookings->no_of_seats = $i;
@@ -116,20 +113,62 @@ class ApiTaxiBookingsController extends Controller
           } else {
             return "fail";
           }
+    
+      }
+      public function save_edittaxibooking(Request $request, $id){
 
+        $bookings = new Bookings;
+
+        Bookings::where('id', $id)-> update(array('client_id' => $request->input('company_id')));
+        Bookings::where('id', $id)-> update(array('tour_type_id' => $request->input('tourtype')));
+        Bookings::where('id', $id)-> update(array('no_of_days' => $request->input('days')));
+        Bookings::where('id', $id)-> update(array('pickup_city_id' => $request->input('city_id')));
+        Bookings::where('id', $id)-> update(array('taxi_type_id' => $request->input('taxi_type_id')));
+        Bookings::where('id', $id)-> update(array('package_name' => $request->input('package_name')));
+        Bookings::where('id', $id)-> update(array('pickup_location' => $request->input('pickup_location')));
+        Bookings::where('id', $id)-> update(array('drop_location' => $request->input('drop_location')));
+        Bookings::where('id', $id)-> update(array('pickup_datetime' => $request->input('pickupdatetime')));
+        Bookings::where('id', $id)-> update(array('assessment_code' => $request->input('assessmentcode')));
+        Bookings::where('id', $id)-> update(array('billing_entity' => $request->input('billing_entity')));
+        Bookings::where('id', $id)-> update(array('reason_of_booking' => $request->input('reason_for_booking')));
+        Bookings::where('id', $id)-> update(array('is_send_sms' => $request->input('send_sms')));
+        Bookings::where('id', $id)-> update(array('is_send_email' => $request->input('send_email')));
+        Bookings::where('id', $id)-> update(array('spoc_id' => $request->input('spoc_id')));
+       
+
+
+        $employees_id="";
+        $i=0;
+        $quantities = $request->input('employees');
+
+        foreach($quantities as $quan) {
+          $pieces = explode("-", $quan);
+          $employees_id .=$pieces[0].',';
+          $i++;
+        }
+        Bookings::where('id', $id)-> update(array('no_of_seats' => $i));
+        Bookings::where('id', $id)-> update(array('passenger_id' => $employees_id));
+       
+
+       return "success";
+         
+    
       }
 
-      public function storedrivertaxi(Request $request,$id){
+      
 
-          Bookings::where('id', $id)-> update(array('operator_id' => $request->input('operator_id')));
-          Bookings::where('id', $id)-> update(array('garage_location' => $request->input('garage_location')));
-          Bookings::where('id', $id)-> update(array('garage_distance' => $request->input('garage_distance')));
-          Bookings::where('id', $id)-> update(array('driver_name' => $request->input('driver_name')));
-          Bookings::where('id', $id)-> update(array('driver_contact' => $request->input('driver_contact')));
-          Bookings::where('id', $id)-> update(array('taxi_model_id' => $request->input('taxi_model_id')));
-          Bookings::where('id', $id)-> update(array('taxi_reg_no' => $request->input('taxi_reg_no')));
-          Bookings::where('id', $id)-> update(array('status_id' => '2'));
-          return "success";
+public function getOneBookings($id)
+  {
+    $onebookings = Bookings::find($id);
+    return $onebookings;
+  }
 
-      }
+public function active_unassigned()
+   {
+     $bookings = Bookings::all();
+     return $bookings;
+   }
+
+
+
 }

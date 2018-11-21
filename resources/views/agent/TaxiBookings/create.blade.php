@@ -24,11 +24,7 @@
                      <select id="company_id" name="company_id" class="form-control">
                         <option value="" selected>Select Company </option>
                          @foreach ($companys as $company)
-<<<<<<< HEAD
                             <option value="{{ $company->id }}">{{ $company->companyname }} </option>
-=======
-                         <option value="{{ $company->companyname }}" {{ $company->companyname == $company->companyname ? 'selected' : ''}}>{{ $company->companyname }} </option>
->>>>>>> e7c6be825e9fe5449f49f6885374a9f26878b683
                          @endforeach
 
                   </select>
@@ -68,26 +64,25 @@
                   <!-- <select name="package_id" id="package_id" data-rel="chosen" class="form-control" style="width:100%;">
                             		<option value="" selected>--Select Package--</option>
                   </select> -->
-                  <input id="package_id" list="package_name" name="package_name" class="form-control">
-                       <datalist id="package_id">
+                  <!-- <input id="package_id" list="package_name" name="package_name" class="form-control"> -->
+                       <select name="package_id" id="package_id" data-rel="chosen" class="form-control">
                        @foreach ($operatorspackages as $operatorspackage)
                               <option value="{{ $operatorspackage->package_name  }}">{{ $operatorspackage->package_name }} </option>
                          @endforeach
 
-                 </datalist>
+                 </select>
                 </div>
 
                 <div>
                   <label>PICKUP LOCATION</label>
                    
-                  <input type="text" placeholder="Pickup Location" class="form-control" name="pickup_location">
-
-
+                  <input type="text" placeholder="Pickup Location" class="form-control" name="pickup_location" id="pickup_location">
+  
                 </div>
                 
                 <div id="tr_drop_location" >
                   <label >DROP LOCATION</label>
-                  <input type="text" placeholder="Drop Location" class="form-control" name="drop_location">
+                  <input type="text" placeholder="Drop Location" class="form-control" name="drop_location" id="drop_location">
                 </div>
 
                 
@@ -275,7 +270,7 @@ $("#company_id").change(function(){
       
   $.get('/Taxivaxi_corporate_new/public/api/agents/Operator/'+opid+'/showcity', function(data)
   {
- //  alert(data);
+   //alert(data);
     var arr = jQuery.parseJSON(data);
 
 var cities = {!! json_encode($cities) !!};
@@ -286,7 +281,7 @@ var cities = {!! json_encode($cities) !!};
         console.log(arr[i].city_id);
        
           if(cities[ii].id == arr[i].city_id){
-//alert(arr[i].city_id);
+  //alert(arr[i].city_id);
 
             $('#city_id').append($("<option  value='"+arr[i].city_id+"'>"+cities[ii].name+" </option>"));  
           }
@@ -297,7 +292,7 @@ var cities = {!! json_encode($cities) !!};
 
   $.get('/Taxivaxi_corporate_new/public/api/agents/Operator/'+opid+'/showtaxitype', function(data)
   {
-  // alert(data);
+   //alert(data);
     var arr = jQuery.parseJSON(data);
 
 var taxi_type = {!! json_encode($taxi_types) !!};
@@ -308,7 +303,7 @@ var taxi_type = {!! json_encode($taxi_types) !!};
         console.log(arr[i].taxi_type_id);
        
           if(taxi_type[ii].id == arr[i].taxi_type_id){
-          //  alert(arr[i].taxi_type_id);
+            //alert(arr[i].taxi_type_id);
 
           $('#taxi_type_id').append($("<option value='"+arr[i].taxi_type_id+"'>"+taxi_type[ii].name+"</option>"));  
           }
@@ -334,7 +329,7 @@ var taxi_type = {!! json_encode($taxi_types) !!};
 
   $.get('/Taxivaxi_corporate_new/public/api/agents/TaxiBookings/'+opid+'/getallemployee', function(data)
   {
-    //alert(data);
+  //alert(data);
     var arr = jQuery.parseJSON(data);
     
         for (var i = 0; i < arr.length; i++) {
@@ -347,4 +342,19 @@ var taxi_type = {!! json_encode($taxi_types) !!};
 
 });
   </script>
+
+ @include('agent.layouts.scripts.googleAutoComplete')
+ <script>
+   $(document).ready(function() {
+     var options = {
+         types: ['(cities)'],
+         componentRestrictions: {country: "in"}
+     };
+     var input = document.getElementById('pickup_location');
+     var inputdrop = document.getElementById('drop_location');
+     var autocomplete = new google.maps.places.Autocomplete(input, options);
+     var autocomplete2 = new google.maps.places.Autocomplete(inputdrop, options);
+   });
+   google.maps.event.addDomListener(window, 'load', initialize);
+   </script>  
 @endpush

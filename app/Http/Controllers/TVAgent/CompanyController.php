@@ -115,13 +115,15 @@ class CompanyController extends Controller
   }
   public function addnewusers(Request $request, $id) {
     $requestparameter = $request->all(); 
-    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/addnewusers');
-
+    $response = $this->postdatafromAPICall($requestparameter, 'agents/TaxiVaxiclients/'.$id.'/addnewusers');
+    
+    $client_users = $this->getdatafromAPICall('agents/TaxiVaxiclients/'.$id.'/showone_user');
     if(strcmp($response,"success")){
-      return redirect()->route('Agent.show-TaxiVaxiclients_user');
+      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
     }else{
-      return redirect()->route('Agent.show-TaxiVaxiclients_user');
+      return view('agent.TaxiVaxiClients.clientUserdetails',compact('client_users'));
     }
+
    
   }
   

@@ -82,17 +82,21 @@ Route::prefix('TaxiVaxiclients_CompanyRate')->group(function() {
 Route::prefix('TaxiBookings')->group(function() {
     Route::post('/submit', 'API_Controller\ApiTaxiBookingsController@submit');
     Route::get('/list', 'API_Controller\ApiTaxiBookingsController@index');
-    Route::get('/{id}/showone', 'API_Controller\ApiTaxiBookingsController@showpassenger');
+    Route::get('/{id}/showone', 'API_Controller\ApiTaxiBookingsController@getOneCompemployee');
     Route::get('/getcompany', 'API_Controller\ApiTaxiBookingsController@getcompanydetails');
     Route::get('/employeelist', 'API_Controller\ApiTaxiBookingsController@getallemployee');
     Route::get('/listunassigned', 'API_Controller\ApiTaxiBookingsController@active_unassigned');
-    Route::get('/{id}/getbooking', 'API_Controller\ApiTaxiBookingsController@showonebooking');
+    Route::get('/{id}/getonebookings', 'API_Controller\ApiTaxiBookingsController@getOneBookings');
     Route::get('/gettaximodels', 'API_Controller\ApiTaxiBookingsController@gettaximodels');
     Route::post('/{id}/storedrivertaxi', 'API_Controller\ApiTaxiBookingsController@storedrivertaxi');
-
+ 
     Route::get('/{id}/getallCompanyspoc', 'API_Controller\ApiTaxiBookingsController@getallCompanyspoc');
-   Route::get('/{id}/getallemployee', 'API_Controller\ApiTaxiBookingsController@getallCompemployee');
-});
+    Route::get('/{id}/getallemployee', 'API_Controller\ApiTaxiBookingsController@getallCompemployee');
+    Route::post('/{id}/save_edittaxibooking', 'API_Controller\ApiTaxiBookingsController@save_edittaxibooking');
+ });
 
 
-});
+
+
+
+  });

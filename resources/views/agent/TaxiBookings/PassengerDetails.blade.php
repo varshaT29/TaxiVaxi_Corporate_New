@@ -26,7 +26,7 @@
               </thead>
               <tbody>
                 @foreach($empdets as $empdet)
-               <tr class="client-row" id="{{ $empdet->taxibookingid }}">
+               <tr class="client-row" id="{{ $empdet->id }}">
                  <td>&nbsp;&nbsp;{{ $empdet->employeename }}</td>
                  <td>{{ $empdet->employeeid }}</td>
                  <td>{{ $empdet->employeecontact }}</td>
@@ -35,7 +35,7 @@
              @endforeach
            </tbody>
          </table>
-         <a href="{{ route('Agent.TaxiBookings') }}" class="custom-submit-btn btn btn-default">Close</a>
+         <a href="{{ route('Agent.active-unassigned-TaxiBookings') }}" class="custom-submit-btn btn btn-default">Back</a>
        </div>
 
        </div>

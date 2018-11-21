@@ -84,7 +84,7 @@
                     </a>
                   </td>
                   <td>
-                    <a href="{{ route('Agent.show-passengerlist', ['id' => $booking->id]) }}">
+                    <a href="{{ route('Agent.show-passengerdetail', ['id' => $booking->passenger_id]) }}">
                         <i class="fas fa-users"></i>
                   </td>
                  <td class="trash-col">

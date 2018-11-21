@@ -37,16 +37,16 @@
                 </div>
                 <div>
                   <label>CONTACT NO.</label>
-                  <input type="number" placeholder="Email" class="form-control" name="contact">
+                  <input type="number" placeholder="Contact No." class="form-control" name="contact">
                 </div>
                 
                 <div>
                   <label>OFFICE ADDRESS</label>
-                  <input type="text" placeholder="Company" class="form-control" name="address">
+                  <input type="text" placeholder="Office Address" class="form-control" name="address">
                 </div>
                   <div>
                   <label>WEBSITE</label>
-                  <input type="text" placeholder="Company" class="form-control" name="website">
+                  <input type="text" placeholder="Website" class="form-control" name="website">
                 </div>
               </div>
               <div class="col-sm-4 panel panel-info">

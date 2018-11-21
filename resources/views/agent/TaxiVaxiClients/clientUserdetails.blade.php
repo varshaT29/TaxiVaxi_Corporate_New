@@ -39,7 +39,7 @@
           <div class="table-wrap">
            <div class="form-head">
             <label>PASSENGER DETAILS</label>
-               <a onclick='adduserFunction({{request()->route('id') }}' class="custom-submit-btn btn btn-default" data-toggle="modal" data-target="#addModal">add new users</a>
+               <a class="custom-submit-btn btn btn-default" data-toggle="modal" data-target="#addModal">add new users</a>
             <table class="table" id="table">
               <thead>
                 <tr>
@@ -76,8 +76,6 @@
 
 @push('scripts')
   <script>
-    function cancelFunction(booking_id) {
-      $("#adduser-form").attr("action", "agents/TaxiVaxiclients/"+booking_id+"/addnewusers");
-    }
+
   </script>
 @endpush
